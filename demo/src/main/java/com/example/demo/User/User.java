@@ -22,6 +22,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String currency;
+
     public User(Long id, String name, String surname, String email) {
         this.id = id;
         this.name = name;
@@ -34,6 +37,14 @@ public class User {
         this.surname = surname;
         this.email = email;
         this.password = password;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public Long getId() {

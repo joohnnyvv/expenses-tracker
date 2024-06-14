@@ -5,9 +5,18 @@ public class UserDTO {
     private String name;
     private String surname;
     private String email;
+    private String currency;
 
     public Long getId() {
         return id;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public void setId(Long id) {
@@ -38,14 +47,15 @@ public class UserDTO {
         this.email = email;
     }
 
-    public UserDTO(Long id, String name, String surname, String email) {
+    public UserDTO(Long id, String name, String surname, String email, String currency) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
+        this.currency = currency;
     }
 
     public static UserDTO fromUser(User user) {
-        return new UserDTO(user.getId(), user.getName(), user.getSurname(), user.getEmail());
+        return new UserDTO(user.getId(), user.getName(), user.getSurname(), user.getEmail(), user.getCurrency());
     }
 }
