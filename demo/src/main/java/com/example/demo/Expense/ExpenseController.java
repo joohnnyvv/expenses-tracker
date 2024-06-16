@@ -1,9 +1,11 @@
 package com.example.demo.Expense;
 
+import com.example.demo.Expense.ExpenseRequestModels.ExpenseByDayRequest;
+import com.example.demo.Expense.ExpenseRequestModels.ExpenseByMonthRequest;
+import com.example.demo.Expense.ExpenseRequestModels.ExpenseByYearRequest;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,5 +33,45 @@ public class ExpenseController {
         expense.setDate(LocalDateTime.now());
         expenseService.addExpense(expense);
         return expense;
+    }
+
+    @PostMapping(path = "getExpensesByDay")
+    public List<Expense> getExpensesByDay(@RequestBody ExpenseByDayRequest expenseByDayRequest) {
+        LocalDate date = expenseByDayRequest.getDate();
+        Long userId = expenseByDayRequest.getUserId();
+        List<Expense> expenses = expenseService.getUserExpensesByDay(userId, date.atStartOfDay(), date.atTime(LocalTime.MAX));
+        if (expenses.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            return expenses;
+        }
+    }
+
+    @PostMapping(path = "getExpensesByMonth")
+    public List<Expense> getExpensesByMonth(@RequestBody ExpenseByMonthRequest expenseByMonthRequest) {
+        YearMonth yearMonth = expenseByMonthRequest.getDate();
+        LocalDateTime startDate = yearMonth.atDay(1).atStartOfDay();
+        LocalDateTime endDate = yearMonth.atEndOfMonth().atTime(LocalTime.MAX);
+        Long userId = expenseByMonthRequest.getUserId();
+        List<Expense> expenses = expenseService.getUserExpensesByDay(userId, startDate, endDate);
+        if (expenses.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            return expenses;
+        }
+    }
+
+    @PostMapping(path = "getExpensesByYear")
+    public List<Expense> getExpensesByYear(@RequestBody ExpenseByYearRequest expenseByYearRequest) {
+        Year year = expenseByYearRequest.getDate();
+        LocalDateTime startDate = year.atDay(1).atStartOfDay();
+        LocalDateTime endDate = year.atMonth(12).atDay(Month.NOVEMBER.maxLength()).atTime(LocalTime.MAX);
+        Long userId = expenseByYearRequest.getUserId();
+        List<Expense> expenses = expenseService.getUserExpensesByDay(userId, startDate, endDate);
+        if (expenses.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            return expenses;
+        }
     }
 }

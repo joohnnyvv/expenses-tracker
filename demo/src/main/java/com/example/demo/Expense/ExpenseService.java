@@ -3,8 +3,8 @@ package com.example.demo.Expense;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ExpenseService {
@@ -22,5 +22,9 @@ public class ExpenseService {
 
     public List<Expense> getUserExpenses(Long userId) {
         return expenseRepository.findByUserId(userId);
+    }
+
+    public List<Expense> getUserExpensesByDay(Long userId, LocalDateTime startDate, LocalDateTime endDate) {
+        return expenseRepository.findExpensesByUserIdAndDateBetween(userId, startDate, endDate);
     }
 }
