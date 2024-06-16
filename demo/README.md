@@ -25,7 +25,7 @@ This API is designed for tracking user expenses. It provides endpoints for regis
 
 ### User Endpoints
 
-#### Register a User
+### Register a User
 **Endpoint:** `POST /api/v1/user/register`
 
 **Request Body:**
@@ -44,7 +44,7 @@ This API is designed for tracking user expenses. It provides endpoints for regis
 - **200 OK:** User registered successfully
 - **400 Bad Request:** Error message
 
-#### Login a User
+### Login a User
 **Endpoint:** `POST /api/v1/user/login`
 
 **Request Body:**
@@ -61,7 +61,7 @@ This API is designed for tracking user expenses. It provides endpoints for regis
 
 ### Expense Endpoints
 
-#### Add an Expense
+### Add an Expense
 **Endpoint:** `POST /api/v1/expenses/addExpense`
 
 **Request Body:**
@@ -77,8 +77,53 @@ This API is designed for tracking user expenses. It provides endpoints for regis
 **Response:**
 - **200 OK:** Expense object with the current date and time
 
-#### Get User Expenses
+### Get User Expenses
 **Endpoint:** `GET /api/v1/expenses/{userId}`
+
+**Response:**
+- **200 OK:** List of Expense objects
+- **204 No Content:** No expenses found
+
+### Get User Expenses By Day
+**Endpoint:** `POST /api/v1/expenses/getExpensesByDay`
+
+**Request Body:**
+```json
+{
+  "userId": 1,
+  "date": "2024-06-17"
+}
+```
+
+**Response:**
+- **200 OK:** List of Expense objects
+- **204 No Content:** No expenses found
+- 
+### Get User Expenses By Month
+**Endpoint:** `POST /api/v1/expenses/getExpensesByMonth`
+
+**Request Body:**
+```json
+{
+  "userId": 1,
+  "date": "2024-06"
+}
+```
+
+**Response:**
+- **200 OK:** List of Expense objects
+- **204 No Content:** No expenses found
+
+### Get User Expenses By Year
+**Endpoint:** `POST /api/v1/expenses/getExpensesByYear`
+
+**Request Body:**
+```json
+{
+  "userId": 1,
+  "date": "2024"
+}
+```
 
 **Response:**
 - **200 OK:** List of Expense objects
