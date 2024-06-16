@@ -8,11 +8,7 @@ This API is designed for tracking user expenses. It provides endpoints for regis
 - [Table of Contents](#table-of-contents)
 - [Endpoints](#endpoints)
   - [User Endpoints](#user-endpoints)
-    - [Register a User](#register-a-user)
-    - [Login a User](#login-a-user)
   - [Expense Endpoints](#expense-endpoints)
-    - [Add an Expense](#add-an-expense)
-    - [Get User Expenses](#get-user-expenses)
 - [Models](#models)
   - [User](#user)
   - [Expense](#expense)
@@ -82,27 +78,52 @@ This API is designed for tracking user expenses. It provides endpoints for regis
 
 **Response:**
 - **200 OK:** List of Expense objects
+```json
+{
+  "expenses": Expense[],
+  "totalExpenses": number
+}
+```
 - **204 No Content:** No expenses found
 
 ### Get User Expenses By Day
 **Endpoint:** `POST /api/v1/expenses/getExpensesByDay/{userId}?date=yyyy-mm-dd`
 
 **Response:**
-- **200 OK:** List of Expense objects
+- **200 OK:** 
+
+```json
+{
+  "expenses": Expense[],
+  "totalExpenses": number
+}
+```
 - **204 No Content:** No expenses found
 - 
 ### Get User Expenses By Month
 **Endpoint:** `POST /api/v1/expenses/getExpensesByMonth/{userId}?yearMonth=yyyy-mm`
 
 **Response:**
-- **200 OK:** List of Expense objects
+- **200 OK:**
+```json
+{
+  "expenses": Expense[],
+  "totalExpenses": number
+}
+```
 - **204 No Content:** No expenses found
 
 ### Get User Expenses By Year
 **Endpoint:** `POST /api/v1/expenses/getExpensesByYear/{userId}?year=yyyy`
 
 **Response:**
-- **200 OK:** List of Expense objects
+- **200 OK:**
+```json
+{
+  "expenses": Expense[],
+  "totalExpenses": number
+}
+```
 - **204 No Content:** No expenses found
 
 ## Models
@@ -162,12 +183,12 @@ public class UserDTO {
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/your-repo/expense-tracker.git
+   git clone https://github.com/joohnnyvv/expenses-tracker.git
    ```
 
 2. **Navigate to the project directory:**
    ```sh
-   cd expense-tracker
+   cd expenses-tracker
    ```
 
 3. **Install dependencies:**
