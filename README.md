@@ -85,45 +85,21 @@ This API is designed for tracking user expenses. It provides endpoints for regis
 - **204 No Content:** No expenses found
 
 ### Get User Expenses By Day
-**Endpoint:** `POST /api/v1/expenses/getExpensesByDay`
-
-**Request Body:**
-```json
-{
-  "userId": 1,
-  "date": "2024-06-17"
-}
-```
+**Endpoint:** `POST /api/v1/expenses/getExpensesByDay/{userId}?date=yyyy-mm-dd`
 
 **Response:**
 - **200 OK:** List of Expense objects
 - **204 No Content:** No expenses found
 - 
 ### Get User Expenses By Month
-**Endpoint:** `POST /api/v1/expenses/getExpensesByMonth`
-
-**Request Body:**
-```json
-{
-  "userId": 1,
-  "date": "2024-06"
-}
-```
+**Endpoint:** `POST /api/v1/expenses/getExpensesByMonth/{userId}?yearMonth=yyyy-mm`
 
 **Response:**
 - **200 OK:** List of Expense objects
 - **204 No Content:** No expenses found
 
 ### Get User Expenses By Year
-**Endpoint:** `POST /api/v1/expenses/getExpensesByYear`
-
-**Request Body:**
-```json
-{
-  "userId": 1,
-  "date": "2024"
-}
-```
+**Endpoint:** `POST /api/v1/expenses/getExpensesByYear/{userId}?year=yyyy`
 
 **Response:**
 - **200 OK:** List of Expense objects

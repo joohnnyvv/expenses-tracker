@@ -3,6 +3,7 @@ package com.example.demo.Expense;
 import com.example.demo.Expense.ExpenseRequestModels.ExpenseByDayRequest;
 import com.example.demo.Expense.ExpenseRequestModels.ExpenseByMonthRequest;
 import com.example.demo.Expense.ExpenseRequestModels.ExpenseByYearRequest;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.*;
@@ -35,43 +36,30 @@ public class ExpenseController {
         return expense;
     }
 
-    @PostMapping(path = "getExpensesByDay")
-    public List<Expense> getExpensesByDay(@RequestBody ExpenseByDayRequest expenseByDayRequest) {
-        LocalDate date = expenseByDayRequest.getDate();
-        Long userId = expenseByDayRequest.getUserId();
-        List<Expense> expenses = expenseService.getUserExpensesByDay(userId, date.atStartOfDay(), date.atTime(LocalTime.MAX));
-        if (expenses.isEmpty()) {
-            return Collections.emptyList();
-        } else {
-            return expenses;
-        }
+    @GetMapping(path = "getExpensesByDay/{userId}")
+    public List<Expense> getExpensesByDay(@PathVariable Long userId, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        LocalDateTime startDate = date.atStartOfDay();
+        LocalDateTime endDate = date.atTime(LocalTime.MAX);
+        List<Expense> expenses = expenseService.getUserExpensesByDay(userId, startDate, endDate);
+        return expenses.isEmpty() ? Collections.emptyList() : expenses;
     }
 
-    @PostMapping(path = "getExpensesByMonth")
-    public List<Expense> getExpensesByMonth(@RequestBody ExpenseByMonthRequest expenseByMonthRequest) {
-        YearMonth yearMonth = expenseByMonthRequest.getDate();
+
+    @GetMapping(path = "getExpensesByMonth/{userId}")
+    public List<Expense> getExpensesByMonth(@PathVariable Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM") YearMonth yearMonth) {
         LocalDateTime startDate = yearMonth.atDay(1).atStartOfDay();
         LocalDateTime endDate = yearMonth.atEndOfMonth().atTime(LocalTime.MAX);
-        Long userId = expenseByMonthRequest.getUserId();
         List<Expense> expenses = expenseService.getUserExpensesByDay(userId, startDate, endDate);
-        if (expenses.isEmpty()) {
-            return Collections.emptyList();
-        } else {
-            return expenses;
-        }
+        return expenses.isEmpty() ? Collections.emptyList() : expenses;
     }
 
-    @PostMapping(path = "getExpensesByYear")
-    public List<Expense> getExpensesByYear(@RequestBody ExpenseByYearRequest expenseByYearRequest) {
-        Year year = expenseByYearRequest.getDate();
+
+    @GetMapping(path = "getExpensesByYear/{userId}")
+    public List<Expense> getExpensesByYear(@PathVariable Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy") Year year) {
         LocalDateTime startDate = year.atDay(1).atStartOfDay();
-        LocalDateTime endDate = year.atMonth(12).atDay(Month.NOVEMBER.maxLength()).atTime(LocalTime.MAX);
-        Long userId = expenseByYearRequest.getUserId();
+        LocalDateTime endDate = year.atMonth(12).atDay(Month.DECEMBER.maxLength()).atTime(LocalTime.MAX);
         List<Expense> expenses = expenseService.getUserExpensesByDay(userId, startDate, endDate);
-        if (expenses.isEmpty()) {
-            return Collections.emptyList();
-        } else {
-            return expenses;
-        }
+        return expenses.isEmpty() ? Collections.emptyList() : expenses;
     }
+
 }
