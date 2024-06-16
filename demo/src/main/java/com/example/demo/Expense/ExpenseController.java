@@ -3,8 +3,8 @@ package com.example.demo.Expense;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.*;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -17,13 +17,16 @@ public class ExpenseController {
     }
 
     @GetMapping(path = "{userId}")
-    public List<Expense> getExpense(@PathVariable Long userId) {
+    public ExpensesByDateResponse getExpense(@PathVariable Long userId) {
         List<Expense> expenses = expenseService.getUserExpenses(userId);
-        if (expenses.isEmpty()) {
-            return Collections.emptyList();
-        } else {
-            return expenses;
-        }
+        BigDecimal totalExpenses = expenses.stream()
+                .map(Expense::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        ExpensesByDateResponse expensesByDateResponse = new ExpensesByDateResponse();
+        expensesByDateResponse.setTotalExpenses(totalExpenses);
+        expensesByDateResponse.setExpenses(expenses);
+        return expensesByDateResponse;
     }
 
     @PostMapping(path = "addExpense")
@@ -34,29 +37,50 @@ public class ExpenseController {
     }
 
     @GetMapping(path = "getExpensesByDay/{userId}")
-    public List<Expense> getExpensesByDay(@PathVariable Long userId, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    public ExpensesByDateResponse getExpensesByDay(@PathVariable Long userId, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         LocalDateTime startDate = date.atStartOfDay();
         LocalDateTime endDate = date.atTime(LocalTime.MAX);
         List<Expense> expenses = expenseService.getUserExpensesByDay(userId, startDate, endDate);
-        return expenses.isEmpty() ? Collections.emptyList() : expenses;
+        BigDecimal totalExpenses = expenses.stream()
+                .map(Expense::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        ExpensesByDateResponse expensesByDateResponse = new ExpensesByDateResponse();
+        expensesByDateResponse.setTotalExpenses(totalExpenses);
+        expensesByDateResponse.setExpenses(expenses);
+        return expensesByDateResponse;
     }
 
 
     @GetMapping(path = "getExpensesByMonth/{userId}")
-    public List<Expense> getExpensesByMonth(@PathVariable Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM") YearMonth yearMonth) {
+    public ExpensesByDateResponse getExpensesByMonth(@PathVariable Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM") YearMonth yearMonth) {
         LocalDateTime startDate = yearMonth.atDay(1).atStartOfDay();
         LocalDateTime endDate = yearMonth.atEndOfMonth().atTime(LocalTime.MAX);
         List<Expense> expenses = expenseService.getUserExpensesByDay(userId, startDate, endDate);
-        return expenses.isEmpty() ? Collections.emptyList() : expenses;
+        BigDecimal totalExpenses = expenses.stream()
+                .map(Expense::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        ExpensesByDateResponse expensesByDateResponse = new ExpensesByDateResponse();
+        expensesByDateResponse.setTotalExpenses(totalExpenses);
+        expensesByDateResponse.setExpenses(expenses);
+        return expensesByDateResponse;
     }
 
 
     @GetMapping(path = "getExpensesByYear/{userId}")
-    public List<Expense> getExpensesByYear(@PathVariable Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy") Year year) {
+    public ExpensesByDateResponse getExpensesByYear(@PathVariable Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy") Year year) {
         LocalDateTime startDate = year.atDay(1).atStartOfDay();
         LocalDateTime endDate = year.atMonth(12).atDay(Month.DECEMBER.maxLength()).atTime(LocalTime.MAX);
         List<Expense> expenses = expenseService.getUserExpensesByDay(userId, startDate, endDate);
-        return expenses.isEmpty() ? Collections.emptyList() : expenses;
+        BigDecimal totalExpenses = expenses.stream()
+                .map(Expense::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        ExpensesByDateResponse expensesByDateResponse = new ExpensesByDateResponse();
+        expensesByDateResponse.setTotalExpenses(totalExpenses);
+        expensesByDateResponse.setExpenses(expenses);
+        return expensesByDateResponse;
     }
 
 }
