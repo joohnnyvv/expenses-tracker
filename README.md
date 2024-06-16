@@ -25,7 +25,7 @@ This API is designed for tracking user expenses. It provides endpoints for regis
 **Endpoint:** `POST /api/v1/user/register`
 
 **Request Body:**
-```json
+```
 {
   "name": "John",
   "surname": "Smith",
@@ -44,7 +44,7 @@ This API is designed for tracking user expenses. It provides endpoints for regis
 **Endpoint:** `POST /api/v1/user/login`
 
 **Request Body:**
-```json
+```
 {
   "email": "example@mail.com",
   "password": "password"
@@ -61,7 +61,7 @@ This API is designed for tracking user expenses. It provides endpoints for regis
 **Endpoint:** `POST /api/v1/expenses/addExpense`
 
 **Request Body:**
-```json
+```
 {
   "userId": 1,
   "amount": 2000,
@@ -78,7 +78,7 @@ This API is designed for tracking user expenses. It provides endpoints for regis
 
 **Response:**
 - **200 OK:** List of Expense objects
-```json
+```
 {
   "expenses": Expense[],
   "totalExpenses": number
@@ -92,7 +92,7 @@ This API is designed for tracking user expenses. It provides endpoints for regis
 **Response:**
 - **200 OK:** 
 
-```json
+```
 {
   "expenses": Expense[],
   "totalExpenses": number
@@ -105,7 +105,7 @@ This API is designed for tracking user expenses. It provides endpoints for regis
 
 **Response:**
 - **200 OK:**
-```json
+```
 {
   "expenses": Expense[],
   "totalExpenses": number
@@ -118,7 +118,7 @@ This API is designed for tracking user expenses. It provides endpoints for regis
 
 **Response:**
 - **200 OK:**
-```json
+```
 {
   "expenses": Expense[],
   "totalExpenses": number
